@@ -1,89 +1,89 @@
 #### Preamble ####
-# Purpose: Tests the structure and validity of the simulated Australian 
-  #electoral divisions dataset.
-# Author: Rohan Alexander
-# Date: 26 September 2024
-# Contact: rohan.alexander@utoronto.ca
+# Purpose: Tests simulated CES 2022 dataset for structure and validity
+# Author: [Your name]
+# Date: 23 November 2024
+# Contact: [Your contact]
 # License: MIT
-# Pre-requisites: 
-  # - The `tidyverse` package must be installed and loaded
-  # - 00-simulate_data.R must have been run
-# Any other information needed? Make sure you are in the `starter_folder` rproj
-
+# Pre-requisites: tidyverse, testthat
 
 #### Workspace setup ####
 library(tidyverse)
+library(testthat)
 
-analysis_data <- read_csv("data/00-simulated_data/simulated_data.csv")
+# Load the simulated data
+simulated_ces_data <- read_csv("data/00-simulated_data/simulated_ces_data.csv")
 
-# Test if the data was successfully loaded
-if (exists("analysis_data")) {
-  message("Test Passed: The dataset was successfully loaded.")
-} else {
-  stop("Test Failed: The dataset could not be loaded.")
-}
+#### Basic data structure tests ####
+test_that("Data has correct structure", {
+  expect_true(is.numeric(simulated_ces_data$presvote20post))
+  expect_true(is.numeric(simulated_ces_data$birthyr))
+  expect_true(is.numeric(simulated_ces_data$gender4))
+  expect_true(is.numeric(simulated_ces_data$educ))
+  expect_true(is.numeric(simulated_ces_data$race))
+  expect_true(is.numeric(simulated_ces_data$urbancity))
+  expect_true(is.numeric(simulated_ces_data$religpew))
+  expect_true(is.numeric(simulated_ces_data$gunown))
+  expect_true(is.numeric(simulated_ces_data$edloan))
+})
 
+#### Value range tests ####
+test_that("Variables are within valid ranges", {
+  # Presidential vote values
+  expect_true(all(simulated_ces_data$presvote20post %in% c(1, 2, 6)))
+  
+  # Birth year range
+  expect_true(all(simulated_ces_data$birthyr >= 1940 & 
+                    simulated_ces_data$birthyr <= 2004))
+  
+  # Gender values
+  expect_true(all(simulated_ces_data$gender4 %in% 1:3))
+  
+  # Education levels
+  expect_true(all(simulated_ces_data$educ %in% 1:6))
+  
+  # Race values
+  expect_true(all(simulated_ces_data$race %in% 1:7))
+  
+  # Urban/rural values
+  expect_true(all(simulated_ces_data$urbancity %in% 1:4))
+  
+  # Religious views
+  expect_true(all(simulated_ces_data$religpew %in% 1:12))
+  
+  # Gun ownership
+  expect_true(all(simulated_ces_data$gunown %in% 1:3))
+  
+  # Education loan status
+  expect_true(all(simulated_ces_data$edloan %in% 1:2))
+})
 
-#### Test data ####
+#### Logical relationship tests ####
+test_that("Data has logical relationships", {
+  # Test voting age
+  expect_true(all(2022 - simulated_ces_data$birthyr >= 18))
+  
+  # Test education loan patterns
+  young_educated <- simulated_ces_data %>%
+    filter(birthyr >= 1980, educ >= 4) %>%
+    summarise(loan_rate = mean(edloan == 1)) %>%
+    pull(loan_rate)
+  expect_true(young_educated > 0.3)
+})
 
-# Check if the dataset has 151 rows
-if (nrow(analysis_data) == 151) {
-  message("Test Passed: The dataset has 151 rows.")
-} else {
-  stop("Test Failed: The dataset does not have 151 rows.")
-}
+#### Distribution tests ####
+test_that("Distributions are reasonable", {
+  # Gender distribution roughly equal except for non-binary
+  gender_props <- prop.table(table(simulated_ces_data$gender4))
+  expect_true(abs(gender_props[1] - 0.48) < 0.1)
+  expect_true(abs(gender_props[2] - 0.48) < 0.1)
+  
+  # Urban/suburban/rural distribution
+  urban_props <- prop.table(table(simulated_ces_data$urbancity))
+  expect_true(urban_props[2] > urban_props[1]) # More suburban than urban
+})
 
-# Check if the dataset has 3 columns
-if (ncol(analysis_data) == 3) {
-  message("Test Passed: The dataset has 3 columns.")
-} else {
-  stop("Test Failed: The dataset does not have 3 columns.")
-}
+#### Missing value tests ####
+test_that("No missing values in required fields", {
+  expect_true(all(!is.na(simulated_ces_data)))
+})
 
-# Check if all values in the 'division' column are unique
-if (n_distinct(analysis_data$division) == nrow(analysis_data)) {
-  message("Test Passed: All values in 'division' are unique.")
-} else {
-  stop("Test Failed: The 'division' column contains duplicate values.")
-}
-
-# Check if the 'state' column contains only valid Australian state names
-valid_states <- c("New South Wales", "Victoria", "Queensland", "South Australia", 
-                  "Western Australia", "Tasmania", "Northern Territory", 
-                  "Australian Capital Territory")
-
-if (all(analysis_data$state %in% valid_states)) {
-  message("Test Passed: The 'state' column contains only valid Australian state names.")
-} else {
-  stop("Test Failed: The 'state' column contains invalid state names.")
-}
-
-# Check if the 'party' column contains only valid party names
-valid_parties <- c("Labor", "Liberal", "Greens", "National", "Other")
-
-if (all(analysis_data$party %in% valid_parties)) {
-  message("Test Passed: The 'party' column contains only valid party names.")
-} else {
-  stop("Test Failed: The 'party' column contains invalid party names.")
-}
-
-# Check if there are any missing values in the dataset
-if (all(!is.na(analysis_data))) {
-  message("Test Passed: The dataset contains no missing values.")
-} else {
-  stop("Test Failed: The dataset contains missing values.")
-}
-
-# Check if there are no empty strings in 'division', 'state', and 'party' columns
-if (all(analysis_data$division != "" & analysis_data$state != "" & analysis_data$party != "")) {
-  message("Test Passed: There are no empty strings in 'division', 'state', or 'party'.")
-} else {
-  stop("Test Failed: There are empty strings in one or more columns.")
-}
-
-# Check if the 'party' column has at least two unique values
-if (n_distinct(analysis_data$party) >= 2) {
-  message("Test Passed: The 'party' column contains at least two unique values.")
-} else {
-  stop("Test Failed: The 'party' column contains less than two unique values.")
-}

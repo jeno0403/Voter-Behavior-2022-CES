@@ -1,26 +1,27 @@
 #### Preamble ####
-# Purpose: Downloads and saves the data from [...UPDATE THIS...]
-# Author: Rohan Alexander [...UPDATE THIS...]
-# Date: 11 February 2023 [...UPDATE THIS...]
-# Contact: rohan.alexander@utoronto.ca [...UPDATE THIS...]
+# Purpose: Downloads and saves the CES 2022 data from Harvard Dataverse
+# Author: [Your name]
+# Date: 23 November 2024
+# Contact: [Your contact]
 # License: MIT
-# Pre-requisites: [...UPDATE THIS...]
-# Any other information needed? [...UPDATE THIS...]
+# Pre-requisites: None
 
 
 #### Workspace setup ####
-library(opendatatoronto)
 library(tidyverse)
-# [...UPDATE THIS...]
+library(arrow)
+
 
 #### Download data ####
-# [...ADD CODE HERE TO DOWNLOAD...]
-
-
+# Note: First manually download "CES22_Common_OUTPUT_vv.csv" from:
+# https://dataverse.harvard.edu/dataset.xhtml?persistentId=doi:10.7910/DVN/PR4L8P
+ces_2022 <-
+  read_csv(
+    "data/01-raw_data/CES22_Common_OUTPUT_vv.csv",  # Changed to match your actual file name
+    show_col_types = FALSE
+  )
 
 #### Save data ####
-# [...UPDATE THIS...]
-# change the_raw_data to whatever name you assigned when you downloaded it.
-write_csv(the_raw_data, "inputs/data/raw_data.csv") 
-
+write_parquet(ces_2022, "data/01-raw_data/raw_ces_2022.parquet")
+write_csv(ces_2022, "data/01-raw_data/raw_ces_2022.csv")
          
