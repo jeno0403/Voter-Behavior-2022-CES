@@ -4,7 +4,8 @@
 # Date: 23 November 2024
 # Contact: jinyan.wei@mail.utoronto.ca
 # License: MIT
-# Pre-requisites: None
+# Pre-requisites:The `tidyverse` package must be installed
+# Any other information needed? Make sure you are in the `ces_2022_demographic_analysisRproj`rproj
 
 #### Workspace setup ####
 library(tidyverse)
@@ -71,9 +72,6 @@ simulated_ces_data <- simulated_ces_data %>%
   mutate(edloan = if_else(educ >= 4 & birthyr >= 1970, 
                           sample(1:2, n(), replace = TRUE, prob = c(0.6, 0.4)),
                           edloan))
-
-# Save the simulated data
-write_csv(simulated_ces_data, "simulated_ces_data.csv")
 
 # Save the simulated data
 write_csv(simulated_ces_data, "data/00-simulated_data/simulated_ces_data.csv")
