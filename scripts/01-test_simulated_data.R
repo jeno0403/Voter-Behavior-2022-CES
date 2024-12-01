@@ -1,8 +1,13 @@
 #### Preamble ####
-# Purpose: Test suite for CES 2022 data simulation
-# Author: Created in response to test request
-# Date: 27 November 2024
-# Pre-requisites: testthat, tidyverse, janitor
+# Purpose: Tests the structure and validity of the 2022 CES Voting pattern 
+# simulated dataset.
+# Author: Jinyan Wei
+# Date: 28 November 2024 
+# Contact: jinyan.wei@mail.utoronto.ca;
+# License: MIT
+# Pre-requisites: 
+# - The `tidyverse`, `testthat`,`janitor` package must be installed and loaded
+# Any other information needed? Make sure you are in the `ces_2022_demographic_analysis`rproj
 
 library(testthat)
 library(tidyverse)

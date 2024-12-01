@@ -1,12 +1,13 @@
 #### Preamble ####
-# Purpose: Test suite for demographic survey data validation
-# Author: Created in response to test request
-# Date: 27 November 2024
-# Pre-requisites: testthat, tidyverse
-#### Workspace setup ####
-library(tidyverse)
-library(testthat)
-library(arrow)
+# Purpose: Tests the structure and validity of the cleaned 2022 CES demographic
+# analysis dataset.
+# Author: Jinyan Wei
+# Date: 28 November 2024 
+# Contact: jinyan.wei@mail.utoronto.ca
+# License: MIT
+# Pre-requisites: 
+# - The `tidyverse`, `testthat`,`arrow` package must be installed and loaded
+# - 02-clean_data.R must have been run
 
 #### Workspace setup ####
 library(tidyverse)

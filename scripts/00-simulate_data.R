@@ -4,8 +4,8 @@
 # Date: 23 November 2024
 # Contact: jinyan.wei@mail.utoronto.ca
 # License: MIT
-# Pre-requisites:The `tidyverse` package must be installed
-# Any other information needed? Make sure you are in the `ces_2022_demographic_analysisRproj`rproj
+# Pre-requisites:The `tidyverse` and `janitor`  package must be installed
+# Any other information needed? Make sure you are in the `ces_2022_demographic_analysis`rproj
 
 #### Workspace setup ####
 library(tidyverse)
