@@ -10,10 +10,10 @@ The repository is structured as follows:
 
 -   `data/raw_data` :This folder contains the raw CES 2022 Common Output Data obtained from [Dataverse](https://dataverse.harvard.edu/dataset.xhtml?persistentId=doi:10.7910/DVN/PR4L8P).  
   To download the data:
-  -  Navigate to the dataset page.
-  -  Download the file named **`CES22_Common_OUTPUT_vv.csv`** either manually or by using the direct download link:  
+  -- Navigate to the dataset page.
+  --  Download the file named **`CES22_Common_OUTPUT_vv.csv`** either manually or by using the direct download link:  
      [Direct File Download](https://dataverse.harvard.edu/api/access/datafile/10140882).
-  -  Alternatively, you can use the following `wget` command to avoid download interruptions:  
+  --  Alternatively, you can use the following `wget` command to avoid download interruptions:  
      ```bash
      wget https://dataverse.harvard.edu/api/access/datafile/10140882 -O data/raw_data/CES22_Common_OUTPUT_vv.csv
      ```
