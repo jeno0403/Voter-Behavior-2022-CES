@@ -22,8 +22,8 @@ The repository is structured as follows:
 -   `data/02-analysis_data` contains the cleaned dataset constructed in `scripts/02-clean_data`.  
 -   The `scripts` folder contains the R scripts and code that simulated, tested, downloaded, and cleaned the data.
 -   `model` contains fitted models.
--   `other` contains details about LLM chat interactions, sketches and datasheet.
--   `paper` contains the files used to generate the paper, including the Quarto document and reference bibliography file, as well as the PDF of the paper.
+-   `other` contains details about LLM chat interactions and sketches
+-   `paper` contains the files used to generate the paper, including the Quarto document and reference bibliography file, the PDF of the paper as well as the datasheet.
 
 
 ## Statement on LLM usage
