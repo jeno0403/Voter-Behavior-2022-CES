@@ -1,5 +1,4 @@
-# The Generational and Demographic Determinants of Voting Behavior: Evidence
-from the 2022 CES
+# The Generational and Demographic Determinants of Voting Behavior: Evidence from the 2022 CES
 
 ## Overview
 
@@ -9,8 +8,18 @@ This paper presents the analysis and methodology used to examine voter behavior 
 
 The repository is structured as follows:
 
--   `data/raw_data` contains the raw poll data as obtained from [FiveThirtyEight](https://projects.fivethirtyeight.com/polls/president-general/2024/national/), by searching for "Download the data", then selecting Presidential general election polls (current cycle), then "Download".To open these data through GitHub, they can be downloaded. Alternatively, to view these files within RStudio, they can be imported using the library `readr`.
--   `data/02-analysis_data` contains the cleaned dataset constructed in `scripts/03-clean_data`.
+-   `data/raw_data` :This folder contains the raw CES 2022 Common Output Data obtained from [Dataverse](https://dataverse.harvard.edu/dataset.xhtml?persistentId=doi:10.7910/DVN/PR4L8P).  
+  To download the data:
+  1. Navigate to the dataset page.
+  2. Download the file named **`CES22_Common_OUTPUT_vv.csv`** either manually or by using the direct download link:  
+     [Direct File Download](https://dataverse.harvard.edu/api/access/datafile/10140882).
+  3. Alternatively, you can use the following `wget` command to avoid download interruptions:  
+     ```bash
+     wget https://dataverse.harvard.edu/api/access/datafile/10140882 -O data/raw_data/CES22_Common_OUTPUT_vv.csv
+     ```
+  Once downloaded, move the file to the **`data/raw_data`** directory.
+  
+-   `data/02-analysis_data` contains the cleaned dataset constructed in `scripts/02-clean_data`.  
 -   The `scripts` folder contains the R scripts and code that simulated, tested, downloaded, and cleaned the data.
 -   `model` contains fitted models.
 -   `other` contains details about LLM chat interactions, sketches and datasheet.
