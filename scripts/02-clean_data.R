@@ -66,7 +66,7 @@ cleaned_data <- raw_data %>%
     ),
     
     # Clean urbanicity
-    urbancity = case_when(
+    urbanicity = case_when(
       urbancity == 1 ~ "Urban",
       urbancity == 2 ~ "Suburban",
       urbancity == 3 ~ "Town",
@@ -172,7 +172,7 @@ cleaned_data <- raw_data %>%
   )
   
   # Step 3: Select only relevant variables
-analysis_data <- cleaned_data|> select(age, vote_choice, race, income_tier, urbancity, education, gender, religion, state,pid7)
+analysis_data <- cleaned_data|> select(age, vote_choice, race, income_tier, urbanicity, education, gender, religion, state,pid7)
 #### Save data ####
 analysis_data <- na.omit(analysis_data)
 write_csv(analysis_data, "data/02-analysis_data/analysis_data.csv")

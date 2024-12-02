@@ -32,7 +32,7 @@ analysis_data <- analysis_data %>%
 
 first_model <- glm(
   vote_choice ~ age_cohort + gender + education + income_tier + 
-    religion + race + urbancity + region,
+    religion + race + urbanicity + region,
   data = analysis_data,
   family = binomial(link = "logit")
 )

@@ -1,4 +1,4 @@
-age,vote_choice,race,income_tier,urbancity,education,gender,religion,state,pid7
+age,vote_choice,race,income_tier,urbanicity,education,gender,religion,state,pid7
 66,democrat,White,Upper income,Urban,No High School,Male,Nothing in particular,Colorado,1
 71,democrat,Black,Lower income,Rural,High School Graduate,Female,Protestant,Utah,1
 58,democrat,Black,Lower income,Urban,Some College,Female,Something else,Georgia,1
