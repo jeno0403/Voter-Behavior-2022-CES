@@ -1,9 +1,9 @@
 ---
 title: "The Generational and Demographic Determinants of Voting Behavior: Evidence from the 2022 CES"
-subtitle: "Urban Voters Are 2.3 Times More Likely to Support Democrats"
+subtitle: "Urban Residents Are 2.3 Times More Likely, College Graduates 1.9 Times More Likely to Support Democrats"
 author: 
   - Jinyan Wei
-thanks: "Code and data are available at: [https://github.com/DianaShen1224/Relationship-between-infant-mortality-rate-and-prohibited-abortion)."
+thanks: "Code and data are available at: [https://github.com/jeno0403/Voter-Behavior-2022-CES)."
 date: today
 date-format: long
 abstract: "Over the past decades, American voting behavior has shown distinct generational and demographic patterns. This study examines how age cohorts and demographic characteristics shape partisan preferences in the 2022 election cycle. Using data from the 2022 Cooperative Election Study (CES), we investigate the intersection of generational differences, socioeconomic status, and regional variation in voting behavior. Through binary logistic regression analysis, we find significant differences across age cohorts, with older voters showing distinct partisan preferences compared to younger generations. Additionally, these age-based patterns vary meaningfully by gender, education level, and geographic region. The results suggest that generational experiences and demographic factors play crucial roles in shaping contemporary American political alignment. These findings provide insights into the evolving nature of partisan identification and highlight the importance of considering both generational change and demographic composition in understanding electoral behavior."
@@ -44,62 +44,36 @@ analysis_data<-read_parquet(here::here("data", "02-analysis_data", "analysis_dat
 ```
 
 # Introduction
-The determinants of voting behavior in the United States have been a focal point of political science research, particularly as the electorate becomes more diverse and polarized. Among these determinants, educational attainment and racial identity have emerged as pivotal factors shaping political preferences. Yet, the interaction between these variables remains insufficiently explored, especially in light of recent social and political developments. Understanding how education levels influence voting behavior across racial and demographic subgroups is essential to deciphering contemporary patterns of political alignment and participation.
 
-This study investigates the interplay between educational attainment, racial identity, and other demographic factors in shaping partisan voting patterns. Drawing on data from the 2022 Cooperative Election Study (CES), which includes responses from 60,000 registered voters across all U.S. states, we analyze how these variables collectively influence the likelihood of supporting Democratic or Republican candidates. The CES dataset provides a rich source of insights into voter preferences, combining validated registration data with extensive demographic and socioeconomic information.
+The determinants of voting behavior in the United States have been a focal point of political science research, particularly as the electorate becomes more diverse and polarized. Among these determinants, educational attainment and racial identity have emerged as pivotal factors shaping political preferences. Understanding how education levels, racial identity, and other demographic factors influence voting behavior is essential to deciphering contemporary patterns of political alignment and participation.
 
-Using binary logistic regression models, this analysis examines the direct and interaction effects of education, race, income, and urbanicity on voting behavior, while controlling for variables such as gender, religion, and gun ownership. By leveraging both weighted and unweighted models, this study provides robust estimates of these relationships and highlights the nuances in voting behavior across subgroups. This methodological framework enables us to identify disparities and unique trends within the electorate, revealing how intersections of education and racial identity influence partisan alignment.
+This study investigates how educational attainment, racial identity, and other demographic characteristics directly shape partisan voting patterns. Drawing on data from the 2022 Cooperative Election Study (CES), which includes responses from 60,000 registered voters across all U.S. states, we analyze the effects of these variables on the likelihood of supporting Democratic or Republican candidates. The CES dataset provides a rich source of insights into voter preferences, combining validated registration data with extensive demographic and socioeconomic information.
 
-The findings demonstrate that the impact of educational attainment on voting preferences is deeply stratified by racial identity and other demographic characteristics. For instance, while higher levels of education are associated with greater support for Democratic candidates among White and Black voters, this relationship is less pronounced among Hispanic and Asian voters, suggesting that cultural and contextual factors mediate these effects. These results underscore the importance of adopting a multidimensional approach to understanding voter behavior in the United States.
+Using binary logistic regression models, this analysis examines the direct effects of education, race, income, and urbanicity on voting behavior, while controlling for variables such as gender, religion, and gun ownership. By leveraging both weighted and unweighted models, this study provides robust estimates of these relationships and highlights the nuances in voting behavior across demographic subgroups. This methodological framework enables us to identify key trends within the electorate, revealing how demographic and socioeconomic characteristics influence partisan alignment.
 
-The remainder of this paper is organized as follows: @sec-data details our data sources
-and variable measurements, @sec-model presents our multinomial regression methodology and
-model specifications, @sec-results discusses our empirical findings, and @sec-discussion
-concludes with implications and directions for future research. Additional methodological
-details and robustness checks are provided in [Appendix- @sec-data-details], [Appendix-
-@sec-model-details], and [Appendix- @sec-survey].
+The findings demonstrate that the impact of educational attainment on voting preferences varies across demographic groups. For instance, while higher levels of education are associated with greater support for Democratic candidates among White and Black voters, this relationship appears to differ among Hispanic and Asian voters, suggesting that cultural and contextual factors play a role. These results underscore the importance of adopting a comprehensive approach to understanding voter behavior in the United States.
+
+The remainder of this paper is organized as follows: @sec-data details our data sources and variable measurements, @sec-model presents our logistic regression methodology and model specifications, @sec-results discusses our empirical findings, and @sec-discussion concludes with implications and directions for future research. Additional methodological details and robustness checks are provided in [Appendix- @sec-data-details], [Appendix- @sec-model-details], and [Appendix- @sec-survey].
 
 # Data {#sec-data}
 
+
 ## Overview
 
-We conduct our analysis of voting behavior in the 2022 U.S. election using the R programming language [@RCoreTeam]. Our dataset, derived from the 2022 Cooperative Election Study (CES) [@ces_2022], provides a comprehensive view of voting preferences across demographic, socioeconomic, and geographic variables. The CES dataset combines validated voter registration data with extensive survey responses, enabling detailed analysis of key factors influencing political behavior. Following the guidance outlined in *Telling Stories with Data* by Alexander (2023) [@tellingstories], this study employs robust statistical techniques to explore demographic influences such as race, age, education, and urbancity, alongside contextual variables like income and religion.
+This analysis examines voting behavior in the 2022 U.S. election using the R programming language [@citeR]. The dataset, derived from the 2022 Cooperative Election Study (CES) [@CESdata], provides a detailed view of voting preferences across demographic, socioeconomic, and geographic variables. Combining validated voter registration data with extensive survey responses, the CES dataset offers a rich foundation for exploring how factors such as race, age, education, income, and urbanicity influence political behavior. Guided by principles from *Telling Stories with Data* by Alexander (2023) [@tellingstories], this study uses statistical techniques to model voting preferences and understand the impact of these variables on partisan alignment.
 
-To support our workflow, we utilized several R packages for data cleaning, analysis, and visualization. The `tidyverse` package [@tidyverse] was foundational, offering tools for efficient data wrangling and exploration, while `arrow` [@arrow] managed parquet files for optimal storage and compatibility with large datasets. The `dplyr` package [@dplyr] facilitated data manipulation, and `ggplot2` [@ggplot2] was employed to create informative visualizations. For report generation, `knitr` [@knitr] and `kableExtra` [@kableExtra] were used to produce clean and reproducible tables. The `caret` package [@caret] enabled model validation through K-fold cross-validation, while the `pROC` package [@pROC] was used to assess the model's performance via the Receiver Operating Characteristic (ROC) curve.
+The analysis leverages several R packages for data preparation, modeling, and visualization. The `tidyverse` [@tidyverse] and `dplyr` [@dplyr] packages were instrumental in data cleaning and manipulation, while `arrow` [@arrow] managed parquet files for efficient storage and compatibility with large datasets. Logistic regression models were implemented and validated using `caret` [@caret], with `pROC` [@pROC] employed to assess performance via Receiver Operating Characteristic (ROC) curves. To visualize geographic trends, the `maps` [@R-maps] package enabled regional analyses, while `ggplot2` [@ggplot2] was used to create detailed visual representations. Report generation was supported by `knitr` [@knitr] and `kableExtra` [@kableExtra], ensuring clear and reproducible documentation of results.
 
-Geographic patterns in voting behavior were visualized using the `maps` package [@maps], allowing for regional analyses. Additionally, the `prediction` package [@prediction] supported efficient extraction and interpretation of model predictions. Together, these tools, along with the structured workflow advocated by Alexander (2023), ensured a reproducible and comprehensive analysis of voting behavior in the United States.
+By combining robust statistical techniques with a reproducible workflow, this study provides valuable insights into voting behavior in the United States. The structured use of R tools ensures accuracy and transparency in analysis, enabling a clear examination of the direct effects of demographic, socioeconomic, and geographic variables on voter preferences. This comprehensive approach highlights significant patterns and trends within the electorate, contributing to a deeper understanding of the factors shaping partisan alignment in the 2022 election.
 
 
 ## Measurement
 
-The process of translating survey responses into a structured dataset for the CES 2022
-analysis requires a systematic approach to measurement and data gathering. In this
-research, we aim to investigate the factors influencing voter preferences, particularly
-the interaction between urbancity and race in shaping voting behavior. The CES dataset
-captures responses to questions about voter choice, political attitudes, and demographic
-characteristics, enabling a comprehensive analysis of election dynamics in the United
-States. Survey items are carefully designed to address diverse aspects of voter behavior,
-such as political affiliation, policy preferences, and party identification.
+The process of translating survey responses into a structured dataset for the CES 2022 analysis requires a systematic approach to measurement and data gathering. This research investigates the factors influencing voter preferences by analyzing demographic, socioeconomic, and geographic variables. The CES dataset captures responses to questions about voter choice, political attitudes, and demographic characteristics, enabling a comprehensive analysis of election dynamics in the United States. Survey items are carefully designed to address diverse aspects of voter behavior, such as political affiliation, policy preferences, and party identification.
 
-To ensure a representative sample, the CES employs matched random sampling techniques
-stratified by demographics and geography. Respondents are recruited using various methods,
-including online panels and targeted outreach, to reflect the diversity of the U.S.
-electorate. After responses are collected, the data undergoes rigorous cleaning and
-validation procedures to address inconsistencies, rectify missing values, and ensure the
-dataset's accuracy. For instance, variables like education and race are recategorized into
-uniform groups to standardize comparisons. Weighting is applied to adjust for potential
-sampling biases, accounting for demographic disparities in age, gender, and state
-representation.
+To ensure a representative sample, the CES employs matched random sampling techniques stratified by demographics and geography. Respondents are recruited using various methods, including online panels and targeted outreach, to reflect the diversity of the U.S. electorate. After responses are collected, the data undergoes rigorous cleaning and validation procedures to address inconsistencies, rectify missing values, and ensure the dataset's accuracy. For instance, variables like education and race are recategorized into uniform groups to standardize comparisons. Weighting is applied to adjust for potential sampling biases, accounting for demographic disparities in age, gender, and state representation.
 
-The cleaned and validated data is then stratified and aggregated to examine voting
-patterns and trends across different subgroups. Statistical models, including multinomial
-logistic regression, are employed to analyze how race and education interact to influence
-voting preferences, highlighting nuances in voter behavior across demographic lines. This
-structured methodology transforms individual survey responses into actionable insights,
-providing a detailed understanding of how demographic factors shape electoral outcomes. By
-combining robust survey design with advanced data analysis techniques, this study captures
-the complex dynamics of contemporary U.S. elections.
-
+The cleaned and validated data is then stratified and aggregated to examine voting patterns and trends across different subgroups. Statistical models, including multinomial logistic regression, are employed to analyze how demographic and socioeconomic factors influence voting preferences, highlighting nuances in voter behavior across demographic lines. This structured methodology transforms individual survey responses into actionable insights, providing a detailed understanding of how demographic factors shape electoral outcomes. By combining robust survey design with advanced data analysis techniques, this study captures the complex dynamics of contemporary U.S. elections.
 
 ## Variables
 
@@ -114,12 +88,12 @@ The primary outcome variable, `vote_choice`, is binary, indicating whether a res
 Key predictors include:
 
 - **Age_cohort**: Categorical variable with four groups (18-29, 30-49, 50-64, 65-90)
-- **Education**: Highest educational attainment, categorized as "high school or less," "some college," "college graduate," or "postgraduate."
-- **Gender**: A categorical variable capturing self-identified gender (Male, Female, or Other).
+- **Education**: Highest educational attainment, categorized as "no high school," "some college," "high school graduate," "2-year College Degree","4-year College Degree" or "Postgraduate Degree".
+- **Gender**: A categorical variable capturing self-identified gender (Male or Female).
 - **Race**: Self-identified racial or ethnic group, categorized as "White," "Black," "Hispanic," "Asian," "Native American," "Middle Eastern," and "Other."
-- **Urbancity**: A categorical variable classifying respondents as residing in urban, suburban, or rural areas.
+- **Urbanicity**: A categorical variable classifying respondents as residing in urban, suburban, rural or town areas.
 - **Religion**: Religious affiliation, measured alongside attendance frequency.
-- **Region**:  Religious affiliation and attendance frequency.
+- **Region**:  A categorical variable indicating geographic location (e.g., Northeast, Midwest, South, or West).
 - **Income_tier**: Household income level.
 
 These variables were selected to reflect key factors identified in the literature as significant predictors of voting behavior. By including a diverse set of predictors, the analysis captures nuanced dynamics in voter preferences and behavior across different demographic and geographic groups.
@@ -280,7 +254,7 @@ OOur modeling approach seeks to examine how demographic, socioeconomic, and geog
 
 The predictors used in the model include a combination of demographic, socioeconomic, and regional variables. `age_cohort` divides respondents into generational groups (18–29, 30–49, 50–64, and 65–90), reflecting differences in life stage and political priorities. `gender` accounts for self-identified gender categories, while `education` captures the highest level of educational attainment, ranging from high school or less to postgraduate degrees. `income_tier` is used to approximate socioeconomic status, while `religion` represents self-identified religious affiliation and its potential influence on political behavior. 
 
-Race and geographic context are central to this analysis. `race` captures the self-reported racial or ethnic identity of respondents, while `urbancity` differentiates urban, suburban, and rural areas. `region`, categorized as Northeast, Midwest, South, and West, provides a broader geographic context. These variables collectively allow the model to capture the intersectional dynamics of race, geography, and demographic factors in shaping partisan preferences.
+Race and geographic context are central to this analysis. `race` captures the self-reported racial or ethnic identity of respondents, while `urbanicity` differentiates urban, suburban, and rural areas. `region`, categorized as Northeast, Midwest, South, and West, provides a broader geographic context. These variables collectively allow the model to capture the intersectional dynamics of race, geography, and demographic factors in shaping partisan preferences.
 
 The logistic regression model assumes that the probability of voting for the Democratic party, given these predictors, follows a logistic distribution. This framework enables the estimation of the effects of individual variables and their interactions, particularly between race and geography, on the log-odds of voting Democrat. By leveraging this approach, the model provides insights into the nuanced ways in which race, urbanicity, and demographic factors influence voting behavior, highlighting critical regional and intersectional trends.
 
@@ -289,15 +263,20 @@ The logistic regression model assumes that the probability of voting for the Dem
 
 The model predicts the likelihood of voting for the Democrat party by constructing a logistic regression model using the following predictor variables:
 
-- `age`: A continuous variable representing the respondent's age.
+- `age_cohort`: Categorical variable categorizes individuals into distinct age groups based on their age. This approach replaces the continuous `age` variable with four categorical cohorts:
+  - **18-29 years**: Represents younger voters, often including students or those early in their careers.
+  - **30-49 years**: Middle-aged individuals, typically established in their careers or managing families.
+  - **50-64 years**: Pre-retirement voters who may prioritize healthcare, pensions, or economic stability.
+  - **65+ years**: Older voters who are often retired and focus on social security and Medicare.
 - `income_tier`: Categorical variable indicating the respondent's income level.
 - `education`: The highest level of education attained by the respondent.
 - `gender`: Categorical variable capturing the respondent's gender.
 - `religion`: Categorical variable indicating the respondent's religious affiliation.
+- `region`: Categorical variable indicating geographic location (e.g., Northeast, Midwest, South, or West).
 - `race`: Categorical variable representing the respondent's racial or ethnic background.
-- `urbancity`: Variable indicating whether the respondent resides in an urban, suburban, or rural area.
+- `urbanicity`: Variable indicating whether the respondent resides in an urban, suburban, or rural area.
 
-We include interaction terms and control variables to account for the potential influence of demographic and socioeconomic factors on voting behavior.
+Grouping ages into cohorts simplifies interpretation by analyzing broad age-based voting trends rather than year-to-year changes. We assume that Age and voting behavior does not follow a linear relationship. This transformation allows the model to identify distinct patterns among groups.
 
 ### Logistic Regression Model {#sec-logistic-model}
 
@@ -307,7 +286,7 @@ The logistic regression model predicts the probability of voting for the Democra
 \begin{aligned}
 y_i|\eta_i &\sim \text{Bernoulli}(P(y_i = 1))\\
 P(y_i = 1) &= \frac{\exp(\eta_i)}{1 + \exp(\eta_i)} \\
-\eta_i &= \beta_0 + \beta_1\cdot\text{Age Cohort}_i + \beta_2\cdot\text{Income Tiers}_i\\&+\beta_3\cdot\text{Education}_i+\beta_4 \cdot \text{Gender}_i\\&+\beta_5 \cdot \text{Religion}_i+\beta_6 \cdot \text{Race}_i+\beta_7 \cdot \text{Urbancity}_i+ \beta_8 \cdot \text{Region}_i
+\eta_i &= \beta_0 + \beta_1\cdot\text{Age Cohort}_i + \beta_2\cdot\text{Income Tiers}_i\\&+\beta_3\cdot\text{Education}_i+\beta_4 \cdot \text{Gender}_i\\&+\beta_5 \cdot \text{Religion}_i+\beta_6 \cdot \text{Race}_i+\beta_7 \cdot \text{urbanicity}_i+ \beta_8 \cdot \text{Region}_i
 \end{aligned}$$
 
 Where:
@@ -322,12 +301,11 @@ The model is implemented in R using the `glm()` function with a binomial family 
 
 ### Model Justification {#sec-model-justify}
 
-Scholars in political science have long recognized that demographic factors such as age, gender, education, race, and urbancity, alongside socioeconomic and geographic contexts, significantly shape voting behavior in the United States. In particular, the intersection of race and urbancity has emerged as a critical area of study, with prior research demonstrating that the influence of geographic context on political preferences often varies across racial and ethnic groups. Our analysis aims to examine these dynamics by including an interaction term between race and urbancity, enabling a deeper understanding of how these factors jointly influence partisan voting behavior.
+Scholars in political science have long recognized that demographic factors such as age, gender, education, race, and urbanicity, alongside socioeconomic and geographic contexts, significantly shape voting behavior in the United States. This analysis examines these dynamics by including key predictors to understand how demographic, socioeconomic, and geographic variables influence partisan voting behavior.
 
-This study employs a logistic regression model to predict the likelihood of voting Democrat (coded as 1) versus voting Republican or for other parties (coded as 0). Logistic regression is particularly suited for modeling binary outcomes, allowing us to estimate the odds of supporting the Democratic party based on a range of demographic, socioeconomic, and geographic predictors. Key predictors include age cohort, gender, education, income tier, religion, race, and urbancity, with the interaction between race and urbanicity capturing the nuanced effects of these intersecting variables on voting behavior.
+This study employs a logistic regression model to predict the likelihood of voting Democrat (coded as 1) versus voting Republican or for other parties (coded as 0). Logistic regression is particularly suited for modeling binary outcomes, allowing us to estimate the odds of supporting the Democratic party based on a range of demographic, socioeconomic, and geographic predictors. Key predictors include age cohort, gender, education, income tier, religion, race, urbanicity, and region.
 
 The model is estimated using maximum likelihood estimation (MLE), which identifies parameter values that maximize the likelihood of observing the data. This approach ensures robust and interpretable estimates of the relationships between predictors and voting preferences. To evaluate the model’s performance, diagnostics such as the Akaike Information Criterion (AIC) and Receiver Operating Characteristic (ROC) curves are employed, providing measures of model fit and predictive accuracy. These diagnostics ensure the reliability of the results and support a nuanced interpretation of how demographic and geographic variables shape partisan alignment. Further methodological details are provided in Section [@sec-model-details].
-
 
 
 # Results {#sec-results}
@@ -346,7 +324,7 @@ first_model <-
 ```{r}
 #| echo: false
 #| eval: true
-#| label: tbl-modelresults
+#| label: tbl-modelresults1
 #| tbl-cap: >
 #|   Summary of Logistic Regression Model Predicting Voting Choices 
 #|   Based on Demographic and Contextual Factors: An Analysis of CES 2022 Data
@@ -356,36 +334,52 @@ modelsummary(
   first_model,
   fmt = 3,
   coef_omit = "race|religion|education",
-  notes = "Note: The table omits coefficients for race and religion for simplicity. The logistic regression model predicts voting preferences using demographic, socioeconomic, and contextual variables. Analysis was conducted using the CES 2022 dataset."
+  notes = "Note: The table omits coefficients for race, education,and religion for simplicity. The logistic regression model predicts voting preferences using demographic, socioeconomic, and contextual variables. Analysis was conducted using the CES 2022 dataset."
 )
 
 ```
-@tbl-modelresults shows the results of the logistic regression model predicting voting preferences are summarized in Table 1. The coefficients indicate the effects of demographic and contextual factors on the likelihood of voting for the Democratic party (coded as 1) versus other voting choices (coded as 0). Among the significant predictors, urban residence (urbanicityUrban) shows a positive and statistically significant association (coefficient: 0.833, p < 0.001), suggesting that individuals living in urban areas are more likely to support Democratic candidates compared to those in rural areas.
 
-Gender also plays a role, with male respondents showing a negative coefficient (coefficient: -0.396, p = 0.066), indicating a slightly lower likelihood of voting Democratic compared to female respondents, though the effect is marginally significant. Income level demonstrates an inverse relationship, as individuals in the upper income tier are less likely to vote Democratic (coefficient: -0.743, p = 0.079). 
+```{r}
+#| echo: false
+#| eval: true
+#| label: tbl-modelresults2
+#| tbl-cap: >
+#|   Summary of Logistic Regression Model Predicting Voting Choices 
+#|   Based on Demographic and Contextual Factors: An Analysis of CES 2022 Data
+#| warning: false
+modelsummary(
+  first_model,
+  fmt = 3,
+  coef_omit = "age|region|gender|urban|educationHigh School Graduate|educationSome College|education2-year College Degree|religionBuddhist|religionHindu|religionJewish|religionMormon|religionEastern or Greek Orthodox|raceMiddle Eastern|raceNative American|raceOther",
+  notes = "Note: The table retains only significant variables and combines some categories for clarity. Analysis uses CES 2022 data."
+)
 
-The model includes regional indicators, but none show statistically significant effects, suggesting limited geographic variation beyond urban-rural divides. Overall, the model achieves reasonable explanatory power with an AIC of 699.4, a BIC of 845.9, and an RMSE of 0.37, reflecting a good fit for the data. These findings emphasize the importance of urbancity, gender, and income in shaping partisan preferences.
+
+```
+The logistic regression results presented in @tbl-modelresults1 and @tbl-modelresults2 highlight the significant demographic, socioeconomic, and contextual factors influencing voting preferences in the 2022 U.S. election. @tbl-modelresults1 focuses on the broad demographic and geographic variables. Urbanicity emerges as a key predictor, with urban residents significantly more likely to vote Democrat (coefficient: 0.675, \(p < 0.001\)). Gender also plays a role, as male voters are less likely to support Democratic candidates compared to females (coefficient: -0.538, \(p < 0.01\)). Among age cohorts, voters aged 30–49 exhibit a modest positive association with Democratic support (coefficient: 0.412, \(p < 0.05\)), while older cohorts show weaker, non-significant trends. Regional effects are limited, with only the South demonstrating a statistically significant negative relationship with Democratic support (-0.466, \(p < 0.05\)).
+
+T@tbl-modelresults2 delves deeper into the roles of education, religion, and race. Higher education levels strongly correlate with Democratic support, particularly among voters with a 4-year college degree (coefficient: 0.895, \(p < 0.01\)) or postgraduate education (coefficient: 1.133, \(p < 0.05\)). Racial identity also significantly affects preferences, with Black voters showing a strong positive association with Democratic voting (coefficient: 1.265, \(p < 0.05\)), while White voters demonstrate a negative association (-0.865). Religion proves to be another critical factor, as Protestant and Catholic voters exhibit reduced likelihoods of Democratic support (coefficients: -1.583 and -1.108, respectively, \(p < 0.01\)). Individuals with no religious affiliation are also less likely to vote Democrat (-0.884, \(p < 0.05\)). Together, these tables reveal the nuanced ways in which structural and identity-based factors shape partisan alignment.
 
 
 # Discussion {#sec-discussion}
 
 ## Key Findings and Implications
 
-This analysis highlights the significant role of demographic and contextual factors in shaping voting preferences. Urbanicity emerges as a particularly strong predictor, with urban residents being significantly more likely to vote Democrat (coefficient: 0.833, p < 0.001). Gender differences also appear, as male respondents demonstrate a lower likelihood of Democratic support compared to female respondents, though the effect is less pronounced (coefficient: -0.396, p = 0.066). Income levels further illustrate partisan divides, with individuals in the upper income tier being less likely to support Democratic candidates (coefficient: -0.743, p = 0.079).
+This analysis highlights the significant role of demographic and contextual factors in shaping voting preferences. `Urbanicity` emerges as one of the strongest predictors, with urban residents significantly more likely to vote Democrat (coefficient: 0.675, p < 0.001). Gender differences are also notable, with male respondents showing a lower likelihood of Democratic support compared to female respondents (coefficient: -0.538, p < 0.001). These findings reinforce the importance of both demographic characteristics and geographic context in shaping partisan alignment.
 
-Interestingly, regional differences across the Northeast, South, and West show no statistically significant effects after accounting for other variables, suggesting that urbanicity and income may drive much of the regional variation observed in voter behavior. Education continues to play a key role, as individuals with four-year college degrees demonstrate significantly higher Democratic support (coefficient: 0.841, p < 0.05). Religion also proves influential, with Protestant and Catholic affiliations showing strong negative associations with Democratic support, reflecting established trends in religiously influenced voting behavior.
+`Education` continues to play a pivotal role, with individuals holding a four-year college degree (coefficient: 0.895, p = 0.007) or a postgraduate degree (coefficient: 1.133, p = 0.012) demonstrating significantly higher Democratic support. Even individuals with some college experience show a positive association (coefficient: 0.518, p = 0.047), emphasizing the influence of educational attainment on voter preferences. Conversely, religious affiliation shows strong negative effects for some groups. For example, Protestant (coefficient: -1.583, p < 0.001) and Roman Catholic respondents (coefficient: -1.108, p = 0.010) are less likely to vote Democrat, reflecting entrenched trends in faith-based voting behavior.
 
-Overall, these findings underline the interplay of urbanicity, income, and religion in influencing voting outcomes. The study demonstrates the critical importance of these factors while also illustrating the secondary influence of regional and cohort differences.
+Interestingly, regional indicators largely lack statistical significance except for the South (coefficient: -0.466, p = 0.036), suggesting that geographic variation in voting preferences may be better explained by urban-rural divides or other demographic factors. `Race` also influences partisan alignment, with Black respondents showing a significantly higher likelihood of voting Democratic (coefficient: 1.265, p = 0.020). These findings underscore the complexity of voter behavior and the need for nuanced analyses of demographic and socioeconomic influences.
 
 ## Implications for Policy and Political Strategy
 
-The results underscore the need for tailored political strategies that address the distinct preferences of urban and rural voters. Campaigns targeting urban voters should emphasize policies that resonate with diverse, younger, and more highly educated populations, as these groups are more likely to align with Democratic platforms. Conversely, addressing economic concerns and emphasizing cultural values may be key to engaging rural voters and those in higher income brackets, who lean more Republican.
+The results emphasize the need for tailored political strategies that address the distinct preferences of urban and rural voters. Campaigns targeting urban voters should focus on policies that resonate with younger, more diverse, and more highly educated populations, as these groups are more likely to align with Democratic platforms. Conversely, addressing economic and cultural concerns could help campaigns engage rural voters and individuals in higher income tiers, who lean more Republican.
 
-The findings on religion point to the importance of faith-based outreach strategies. Engaging with religious communities through culturally sensitive messaging could help political campaigns bridge gaps with Protestant and Catholic voters. Similarly, the influence of education on voter behavior suggests that increasing access to higher education could reshape long-term political alignments, particularly in regions where educational attainment is relatively low.
+Religious affiliations also present opportunities for targeted outreach. Campaigns should adopt culturally sensitive messaging when engaging with Protestant and Catholic communities, which may help reduce the Democratic Party’s deficits in these voter groups. Similarly, addressing educational disparities and improving access to higher education could reshape long-term political alignments, particularly in regions or demographic groups where educational attainment is relatively low.
 
-Furthermore, education plays a key role in shaping political behavior, but the effects are not uniform across racial lines. For policymakers, addressing educational disparities and improving access to higher education in marginalized communities may not only reduce inequalities but also reshape voting patterns in future elections. Urban-rural divides should also be considered in political messaging, as these areas show significantly different political alignments.
+Finally, urban-rural divides continue to shape voting behavior, with urban voters exhibiting significantly different political preferences compared to their rural counterparts. For policymakers, recognizing these divides and crafting inclusive policies that address the needs of both urban and rural communities is critical. At the same time, disparities in education and race remain pressing issues. Expanding access to higher education, particularly for marginalized communities, could reduce inequalities and reshape voting patterns in the long term.
 
-In conclusion, this study underscores the importance of considering demographic variables such as race, education, and urbanicity when analyzing voting behavior. It highlights the need for political strategies that recognize and respond to the diverse and intersecting needs of voters across different demographic groups. As such, future studies should continue to explore these relationships, particularly the impact of education and race on political preferences, to ensure more inclusive and representative policies and campaigns.
+In conclusion, this study demonstrates the importance of integrating demographic, socioeconomic, and geographic variables into analyses of voter behavior. It calls for future research to further explore the intersections of these factors, particularly the role of education and race in influencing political preferences. Such insights can guide more effective policy development and political strategy, ensuring that diverse voter needs are addressed.
 
 
 ## Data and Temporal Limitations
@@ -421,7 +415,7 @@ this analysis is available in the GitHub Repository `other/sketches`.
 
 ## Data Cleaning
 
-The CES 2022 dataset was carefully cleaned and processed to prepare it for analysis. Key variables such as `vote_choice`, `age_cohort`, `income_tier`, `education`, `gender`, `religion`, `race`, `urbancity`, and `region` were retained, reflecting the primary demographic, socioeconomic, and geographic factors relevant to voting behavior. Observations with missing or invalid values in these variables were excluded to ensure consistency and accuracy in the analysis. Additionally, only registered voters (`votereg == 1`) were included to align the dataset with the study's focus on electoral participation.
+The CES 2022 dataset was carefully cleaned and processed to prepare it for analysis. Key variables such as `vote_choice`, `age_cohort`, `income_tier`, `education`, `gender`, `religion`, `race`, `urbanicity`, and `region` were retained, reflecting the primary demographic, socioeconomic, and geographic factors relevant to voting behavior. Observations with missing or invalid values in these variables were excluded to ensure consistency and accuracy in the analysis. Additionally, only registered voters (`votereg == 1`) were included to align the dataset with the study's focus on electoral participation.
 
 Categorical variables, such as `age_cohort`, `gender`, and `region`, were transformed into factors to enable proper handling in the logistic regression model. Continuous variables like `age` were grouped into cohorts to facilitate meaningful comparisons across age groups. The cleaned dataset was saved in both CSV and Parquet formats, ensuring compatibility with statistical tools and efficient data management. These preprocessing steps provided a robust foundation for the logistic regression analysis, enabling a comprehensive exploration of how demographic and contextual variables influence voting behavior.
 
@@ -442,7 +436,7 @@ The data utilized in this study was sourced from the [Harvard Dataverse](https:/
 library(caret)
 train_control <- trainControl(method = "cv", number = 10)
 model_cv <- train(
-  vote_choice ~ age + education + gender + religion + race * urbancity,
+  vote_choice ~ age + education + gender + religion + race * urbanicity,
   data = analysis_data,
   method = "glm",
   family = binomial(link = "logit"),
@@ -575,48 +569,47 @@ This study involves exploring sensitive topics such as voting behavior, socioeco
 
 Strict confidentiality measures will be in place to protect participants’ identities, with responses securely stored and anonymized to prevent re-identification. Recruitment through reputable platforms and organizations will foster trust, and respondents will be informed of their rights throughout the process. Additionally, transparency in reporting and ethical data usage will ensure the findings are used responsibly to advance understanding without perpetuating harm or bias. This ethical framework underscores our dedication to conducting inclusive, respectful, and socially responsible research.
 
-
 ## Proposed Survey Design
 
-Exploring the relationship between education, economic conditions, and voter behavior requires a carefully crafted survey design to ensure accurate, unbiased data collection. Social desirability bias and perceived judgment in discussing socioeconomic and political preferences pose challenges, particularly in a politically polarized environment. Drawing on best practices from @stantcheva2023 and similar survey research, this survey employs design strategies to minimize bias, maximize respondent comfort, and enhance data accuracy.
+Investigating the relationship between education, economic conditions, and voter behavior necessitates a meticulously designed survey to ensure accurate and unbiased data collection. Given the politically polarized environment, this study acknowledges the potential influence of social desirability bias and the perceived sensitivity of questions addressing socioeconomic and political preferences. Drawing on best practices outlined by @stantcheva2023 and @fowler1995, this survey integrates strategies to minimize bias, enhance respondent comfort, and optimize data accuracy.
 
-This survey examines how economic conditions, education, and racial identity influence voting preferences, emphasizing neutral, inclusive phrasing and an anonymous, online format to reduce respondent concerns. Inspired by successful methodologies, it incorporates strategies like randomized response options, opt-out choices (e.g., "Prefer not to say"), and a balanced mix of multiple-choice and open-ended questions to capture nuanced perspectives. By adopting a "contribution" framework, the survey introduces sections with messages highlighting the importance of participant input in improving societal understanding and public policy. This approach aims to foster trust, engagement, and honest responses, ensuring the collection of high-quality data that reflects the diverse realities of voter experiences.
+This survey examines the intersection of economic conditions, education, and racial identity with voting preferences. It employs neutral, inclusive phrasing and an anonymous, online format to reduce respondent apprehension. Inspired by proven methodologies, the design incorporates randomized response options, opt-out choices (e.g., "Prefer not to say"), and a combination of multiple-choice and open-ended questions to collect both structured data and nuanced insights. To encourage honest and thoughtful participation, the survey employs a "contribution" framework in its introductions, emphasizing how participants’ input helps improve understanding of voting behavior and inform public policy. This approach fosters trust, engagement, and accurate responses, ensuring high-quality data that reflects the diverse realities of voter experiences.
 
-## Solution to the response bias in our survey
+## Solutions to Response Bias in Our Survey
 
-We draw on recommendations from @stantcheva2023 to minimize response biases. Common response biases identified in survey design include moderacy bias, extreme response bias, ordering bias, acquiescence bias, experimenter demand effect(EDE), and social desirability bias (SDB). Our survey primarily focuses on strategies to reduce moderacy bias, extreme response bias, ordering bias, and SDB. The detailed definitions of these biases are provided in [Appendix-@sec-definition].
+Drawing on recommendations from @stantcheva2023 and @fowler1995, this survey addresses common response biases, including moderacy bias, extreme response bias, response order bias, acquiescence bias, experimenter demand effects (EDE), and social desirability bias (SDB). This study focuses particularly on moderacy bias, extreme response bias, response order bias, and SDB. Detailed definitions of these biases are provided in [Appendix-@sec-definition].
 
-To mitigate bias, we enhance our survey in the following ways, drawing on recommendations
-from @stantcheva2023:
+To mitigate these biases, the survey implements the following strategies:
 
-- Addressing Extreme/Moderacy Bias: We use a minimum of five response options for scale questions to provide more detailed choices, reducing the likelihood of respondents defaulting to extreme or middle answers.
+- **Addressing Extreme/Moderacy Bias**: A minimum of five response options is included for scale-based questions, offering participants a range of detailed choices to discourage defaulting to extreme or neutral answers.
 
-- Mitigating Response Order Bias: For nominal questions, we randomize response options.
+- **Mitigating Response Order Bias**: Randomizing response options in nominal questions eliminates potential biases caused by the order of presented choices.
 
-- Minimizing Social Desirability Bias (SDB): The survey design addresses social desirability bias (SDB) by emphasizing anonymity and confidentiality throughout. A clear introduction outlines the survey’s purpose—academic research on the impact of restrictive abortion laws—and reassures participants that their responses will remain confidential and solely used for research. The anonymous online format creates a safe environment for participants to share their experiences without fear of judgment or stigma. A feedback section at the end encourages participants to express concerns or share additional thoughts, fostering trust and enhancing data quality.
+- **Minimizing Social Desirability Bias (SDB)**: Emphasizing anonymity and confidentiality throughout the survey reassures participants and reduces SDB. The introduction clearly outlines the survey's purpose as an academic study on voter behavior and ensures that responses will remain confidential and solely used for research. This anonymous online format creates a safe space for participants to share their perspectives without fear of judgment or stigma.
+
+- **Encouraging Honest Feedback**: A feedback section at the survey’s conclusion invites participants to express concerns or provide additional insights. This fosters trust and strengthens the data’s reliability and depth.
+
+By employing these strategies, this survey ensures a robust and reliable approach to studying voting behavior, collecting comprehensive data that contributes meaningfully to understanding the sociopolitical dynamics shaping voter preferences.
+
 
 ### Survey Link
 
 The survey has been implemented using Google Forms. You can access it
-here: [Survey Link](https://forms.gle/YRrb6Z6EyorHPkuF8).
+here: [Survey Link](https://forms.gle/okZTnrGJbiDYT6Vt8).
 
-## Copy of Survey on Restrictive Abortion Laws and Maternal Health
+## Copy of Survey on Generational and Demographic Determinants of Voting Behavior
 
 Welcome Section
 
-Introduction: Welcome to our study on the impact of restrictive abortion
-laws on maternal and infant health. Your participation in this survey
-will help us understand the psychological, social, and systemic impacts
-of these laws. Rest assured that your responses are anonymous and will
-only be used for academic research purposes.
+Introduction: Welcome to our study on voting behavior across different generations,regions, and demographic backgrounds. Your participation will help us understand how age, geographic location, and demographic characteristics influence political affiliation and voter preferences.Rest assured that your responses are anonymous and will only be used for
+academic research purposes.
 
-This survey is conducted by nonpartisan researchers in public health and
-social sciences. It consists of 17 carefully designed questions and
-should take approximately 10–15 minutes to complete.
+This survey is conducted by researchers at the University of Toronto and is part
+of a broader study on voting behavior and generational change. It consists of 
+17 questions and should take approximately 10–15 minutes to complete.
 
 Please answer the questions honestly. If you experience any discomfort
-while completing the survey, you may stop at any time. For support, we
-provide a list of mental health resources at the end of the survey.
+while completing the survey, you may stop at any time. 
 
 Contact Information: Jinyan Wei Email: jinyan.wei\@mail.utoronto.ca
 
@@ -628,149 +621,133 @@ Section 1: Demographics and Background Information
     -   25–34
     -   35–44
     -   45–54
-    -   55+
+    -   55-64
+    -   65+
     -   Prefer not to say
-2.  What is your highest level of education?
-    -   Less than high school
+    
+2.  What is your gender?
+    -   Man
+    -   Woman
+    -   Non-binary
+    -   Prefer not to say
+
+3.  What is your highest level of education?
+    -   No HS
     -   High school graduate or equivalent
     -   Some college
     -   Bachelor’s degree
     -   Graduate or professional degree
     -   Prefer not to say
 
-3. What is your marital status? - Single - Married - Divorced - Widowed -
-Prefer not to say
-
-Section 2: Understanding Abortion Experiences
-
-Introduction: This section focuses on understanding abortion
-experiences, including the circumstances and decisions surrounding them.
-Your responses are invaluable in helping researchers and policymakers
-improve health services and support for women and families. Please know
-that your answers are entirely confidential and will only be used for
-research purposes. If you are comfortable, we encourage you to answer as
-honestly as possible. If you prefer not to answer, you are welcome to
-skip this section.
-
-1.  Are you willing to answer this part?
-    -   Yes
-    -   No \[Jump to Section 3\]
-2.  Did you seek abortion services during your pregnancy?
-    -   Yes
-    -   No
-    -   Prefer not to say
-3.  If yes, were you unable to access abortion services due to legal
-    restrictions in your state?
-    -   Yes
-    -   No
-    -   Prefer not to say
-4.  How did the inability to access abortion services impact your mental
-    health during pregnancy?
-    -   No impact
-    -   Mild impact
-    -   Moderate impact
-    -   Severe impact
-    -   Prefer not to say
-5.  Did you receive any support from healthcare providers or community
-    organizations during your pregnancy?
-    -   Yes
-    -   No
-6.  If you were unable to access abortion services, what barriers did
-    you encounter? (Select all that apply)
-    -   Legal restrictions
-    -   Financial constraints
-    -   Lack of healthcare providers
-    -   Distance to clinic
-    -   Fear of stigma or judgment
-    -   Prefer not to say
-7.  If you sought an abortion but were unable to access one, how did
-    this affect your mental health during pregnancy?
-    -   Increased stress
-    -   Anxiety
-    -   Depression
-    -   Anger or frustration
-    -   Feeling of helplessness
+4.  What is your race or ethnicity?
+    -   White
+    -   Black or African American
+    -   Hispanic or Latino
+    -   Asian
+    -   Native American or Alaska Native
+    -   Middle Eastern or North African
+    -   Other (please specify): __________
     -   Prefer not to say
 
-Section 3: Experiences and Support for Women Facing Pregnancy Challenges
-
-Introduction: This section seeks to understand the experiences and
-outcomes of women who, due to restrictive abortion laws, were unable to
-access abortion services and subsequently faced the loss of their child.
-We recognize that discussing past pregnancies can be sensitive,
-especially those involving circumstances such as abortion or the loss of
-a child. Your understanding are invaluable in identifying areas where
-healthcare and support services can be improved. If you prefer not to
-answer, you are welcome to skip this section.
-
-1.  Are you willing to answer this part?
-    -   Yes
-    -   No \[Jump to Section 4\]
-2.  Did you experience the loss of your child within the first year of
-    life?
-    -   Yes
-    -   No \[Jump to Section 4\]
+5.  What is your household income level(in dollar)?
+    -   Below 10,000
+    -   10,000 - 24,999
+    -   25,000 - 49,999
+    -   50,000 - 74,999
+    -   75,000 - 99,999
+    -   100,000 - 149,999
+    -   150,000 - 199,999
+    -   200,000 or above
     -   Prefer not to say
-3.  What was the primary cause of your child’s death as communicated by
-    healthcare providers?
-    -   Premature birth or related complications
-    -   Congenital abnormalities or genetic conditions
-    -   Sudden Infant Death Syndrome (SIDS)
-    -   Infections (e.g., pneumonia, sepsis)
-    -   Birth trauma or delivery complications
-    -   Lack of access to timely medical care
-    -   Other (please specify)
-4.  To what extent do you believe the instances during your pregnancy
-    where mental health challenges prevented you from seeking or
-    receiving adequate medical care?
-    -   1 (No impact)
-    -   2
-    -   3
-    -   4
-    -   5 (Significantly)
-5.  To what extent do you believe the mental health challenges caused by
-    the inability to access abortion services contributed to health
-    complications for your child?
-    -   Not at all – I don’t believe my mental health challenges had any
-        impact on my child’s health.
-    -   Slightly – I think there may have been a minor impact on my
-        child’s health.
-    -   Moderately – I feel my mental health challenges had a noticeable
-        impact on my child’s health.
-    -   Significantly – I believe my mental health challenges had a
-        considerable impact on my child’s health.
-    -   Completely – I think my mental health challenges were the
-        primary factor in my child’s health complications.
+    
+6.  What is your primary region of residence?
+    -   Northeast
+    -   Midwest
+    -   South 
+    -   West
     -   Prefer not to say
-6.  Looking back, do you believe access to abortion services could have
-    positively affected your mental and physical health during
-    pregnancy?
-    -   Yes
-    -   No
-    -   Maybe
-    -   Prefer not to say
+  
+7.  Do you live in an urban, suburban, or rural area?
+    -   Urban
+    -   Suburban
+    -   Rural
+    
+Section 2: Understanding Political Affiliations
 
-Section 4: Perspectives and Support
+1. What is your current political affiliation?
+   - Democrat  
+   - Republican  
+   - Independent  
+   - Prefer not to say  
+   
+2. In the last election, did you vote?
+   - Yes
+   - No
+   - Prefer not to say  
+   
+3. How important is your political affiliation to your identity?
+   - Not important
+   - Slightly important
+   - Moderately important
+   - Very important
+   - Extremely important
+   
+4. How likely are you to participate in the next election? 
+   - Very likely  
+   - Somewhat likely  
+   - Not likely  
+   - Prefer not to say  
+   
 
-If you feel distressed or need support after completing this survey, the
-following resources are available to provide assistance:
+5. How important is a candidate’s stance on social issues (e.g., healthcare, education)? 
+   - Very important  
+   - Somewhat important  
+   - Not important  
 
-1.  Postpartum Support International (PSI)
-    -   Website: www.postpartum.net
-    -   Helpline: 1-800-944-4773 (Text "Help" to 800-944-4773)
-    -   Services: Support for mental health during and after pregnancy,
-        including peer support and counseling.
-2.  Mental Health America (MHA)
-    -   Website: www.mhanational.org
-    -   Services: Online screening tools, support networks, and
-        educational materials.
-3.  SAMHSA National Helpline
-    -   Website: www.samhsa.gov
-    -   Hotline: 1-800-662-HELP (4357)
-    -   Services: Free, confidential referrals for mental health and
-        substance use disorders.
+6. How would you rate the influence of regional factors (e.g., state policies) on your voting behavior?
+   - High influence  
+   - Moderate influence  
+   - Low influence  
 
-Section 5: Feedback
+Section 3: Generational and Regional Perspectives
+
+1. How much do you agree with the following statement: 
+   “Generational differences significantly influence voting behavior.”  
+   - Strongly agree  
+   - Agree  
+   - Neutral  
+   - Disagree  
+   - Strongly disagree  
+
+2. Do you believe urban-rural divides play a major role in political alignment? 
+   - Yes  
+   - No  
+   - Not sure  
+
+3. Do you feel adequately informed about the policies of political candidates in your region? 
+   - Yes  
+   - No  
+   - Not sure  
+   
+4. Do you think your age cohort has different priorities compared to older or younger generations when it comes to voting?
+   - Yes
+   - No
+   - Unsure
+
+
+Section 4: Resources and Support
+
+If you feel distressed or need support after completing this survey, the following resources are available:**  
+
+1. Mental Health America (MHA)
+   - Website: [www.mhanational.org](https://www.mhanational.org)  
+   - Services: Online screening tools, support networks, and educational materials.  
+
+2. National Helpline for Mental Health
+   - Hotline: 1-800-662-HELP (4357)  
+   - Services: Free, confidential referrals for mental health support.  
+
+Section 5 : Feedback
 
 1.  Do you have any concerns or feedback regarding the survey, surveyor,
     or entity?
@@ -784,8 +761,27 @@ feedback is invaluable and will help us better understand and address
 the experiences of women who have faced similar circumstances. We deeply
 appreciate your participation and the courage it takes to share your
 experiences.
+    
 
+## Response Bias Definition {#sec-definition}
 
+In survey research, response bias refers to the systematic tendency of survey respondents to answer questions inaccurately or falsely, leading to distorted data and potentially invalid conclusions. Response bias can arise from various factors, including question phrasing, respondent motivations, and survey administration methods.
+
+Some common types of response bias include:
+
+- **Social Desirability Bias**: The tendency of respondents to answer questions in a manner that will be viewed favorably by others, often leading to overreporting of socially desirable behaviors and underreporting of undesirable ones [@fowler1995].
+
+- **Acquiescence Bias**: Also known as "yea-saying," this is the inclination of respondents to agree with statements regardless of their content, resulting in a disproportionate number of affirmative answers [@converse1986].
+
+- **Extreme Response Bias**: The propensity to use the extreme ends of a response scale, such as "strongly agree" or "strongly disagree," more frequently than the middle options, which can skew the data toward more polarized responses [@fowler1995].
+
+- **Moderacy Bias**: The tendency to avoid extreme responses and consistently select middle or neutral options on a scale, potentially masking true variations in opinions or behaviors [@converse1986].
+
+- **Question Order Bias**: Occurs when the sequence of questions influences responses, as earlier questions can provide context that affects answers to subsequent ones [@fowler1995].
+
+- **Nonresponse Bias**: Arises when certain groups are underrepresented because they are less likely to respond to surveys, leading to results that do not accurately reflect the target population [@converse1986].
+
+Understanding and mitigating these biases is crucial for researchers to ensure the validity and reliability of survey data. Employing strategies such as careful questionnaire design, randomized question ordering, and ensuring respondent anonymity can help reduce the impact of response biases.
 
 
 \newpage
