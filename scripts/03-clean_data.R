@@ -12,15 +12,6 @@ library(tidyverse)
 library(arrow)
 
 
-#### Download data ####
-# Note: First manually download "CES22_Common_OUTPUT_vv.csv" from:
-# https://dataverse.harvard.edu/dataset.xhtml?persistentId=doi:10.7910/DVN/PR4L8P
-
-data <-
-  read_csv(
-    "data/01-raw_data/CES22_Common_OUTPUT_vv.csv",
-    show_col_types = FALSE
-  )
 cleaned_data <- raw_data %>%
   filter(
     votereg == 1, # Registered voters only
@@ -168,12 +159,27 @@ cleaned_data <- raw_data %>%
       inputstate == 49 ~ "West Virginia",
       inputstate == 50 ~ "Wisconsin",
       inputstate == 51 ~ "Wyoming"
-    )
+    ),
+    age_cohort = factor(cut(age, breaks=c(18,29,49,64,90))),
+    vote_choice = factor(vote_choice, levels = c("republican", "democrat")),
+    region = case_when(
+      state %in% c("Maine", "Vermont", "New Hampshire", "Massachusetts", 
+                   "Rhode Island", "Connecticut", "New York", "New Jersey", 
+                   "Pennsylvania") ~ "Northeast",
+      state %in% c("Wisconsin", "Michigan", "Illinois", "Indiana", "Ohio",
+                   "Minnesota", "Iowa", "Missouri", "North Dakota", 
+                   "South Dakota", "Nebraska", "Kansas") ~ "Midwest",
+      state %in% c("Delaware", "Maryland", "Virginia", "West Virginia",
+                   "North Carolina", "South Carolina", "Georgia", "Florida",
+                   "Kentucky", "Tennessee", "Mississippi", "Alabama", 
+                   "Arkansas", "Louisiana") ~ "South",
+      TRUE ~ "West"
+    ),
+    region = factor(region)
   )
   
   # Step 3: Select only relevant variables
-analysis_data <- cleaned_data|> select(age, vote_choice, race, income_tier, urbanicity, education, gender, religion, state,pid7)
-#### Save data ####
+analysis_data <- cleaned_data|> select(age,age_cohort,vote_choice, race, income_tier, urbanicity,region, education, gender, religion, state,pid7)
 analysis_data <- na.omit(analysis_data)
 write_csv(analysis_data, "data/02-analysis_data/analysis_data.csv")
 write_parquet(analysis_data, "data/02-analysis_data/analysis_data.parquet")
