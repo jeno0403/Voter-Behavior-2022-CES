@@ -8,16 +8,16 @@ This paper presents the analysis and methodology used to examine voter behavior 
 
 The repository is structured as follows:
 
--   `data/raw_data` :This folder contains the raw CES 2022 Common Output Data obtained from [Dataverse](https://dataverse.harvard.edu/dataset.xhtml?persistentId=doi:10.7910/DVN/PR4L8P).  
+-   `data/raw_data` : This folder contains the raw CES 2022 Common Output Data obtained from [Dataverse](https://dataverse.harvard.edu/dataset.xhtml?persistentId=doi:10.7910/DVN/PR4L8P).  
   To download the data:
-  1. Navigate to the dataset page.
-  2. Download the file named **`CES22_Common_OUTPUT_vv.csv`** either manually or by using the direct download link:  
+    - Navigate to the dataset page.
+    - Download the file named **`CES22_Common_OUTPUT_vv.csv`** either manually or by using the direct download link:  
      [Direct File Download](https://dataverse.harvard.edu/api/access/datafile/10140882).
-  3. Alternatively, you can use the following `wget` command to avoid download interruptions:  
+    - Alternatively, you can use the following `wget` command to avoid download interruptions:  
      ```bash
      wget https://dataverse.harvard.edu/api/access/datafile/10140882 -O data/raw_data/CES22_Common_OUTPUT_vv.csv
      ```
-  4. Once downloaded, move the file to the **`data/raw_data`** directory.
+    - Once downloaded, move the file to the **`data/raw_data`** directory.
   
 -   `data/02-analysis_data` contains the cleaned dataset constructed in `scripts/03-clean_data`.  
 -   The `scripts` folder contains the R scripts and code that simulated, tested, downloaded, and cleaned the data.
