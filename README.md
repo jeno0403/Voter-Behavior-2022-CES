@@ -19,7 +19,7 @@ The repository is structured as follows:
      ```
   4. Once downloaded, move the file to the **`data/raw_data`** directory.
   
--   `data/02-analysis_data` contains the cleaned dataset constructed in `scripts/02-clean_data`.  
+-   `data/02-analysis_data` contains the cleaned dataset constructed in `scripts/03-clean_data`.  
 -   The `scripts` folder contains the R scripts and code that simulated, tested, downloaded, and cleaned the data.
 -   `model` contains fitted models.
 -   `other` contains details about LLM chat interactions and sketches
@@ -28,4 +28,4 @@ The repository is structured as follows:
 
 ## Statement on LLM usage
 
-Aspects of the code were written with the help of Claude Sonnet3.5 and ChatGPT4o. Part of the writing process, including generating and polishing was written with the help of ChatGPT4o, and the entire chat history is available in `other/llms/usage.txt`.
+Aspects of the code were written with the help of  ChatGPT4o. Part of the writing process, including generating and polishing was written with the help of ChatGPT4o, and the entire chat history is available in `other/llms/usage.txt`.
